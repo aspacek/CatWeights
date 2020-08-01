@@ -1,0 +1,9 @@
+Date	Loc	Cat	Weight	*
+---------------------------------
+180116	Home	Pookie	12.2
+180116	Home	Snowbll	13.8
+190201	Vet 	Pookie	13.0
+190201	Vet 	Snowbll	12.9
+200721	Vet 	Pookie	13.4
+200721	Vet 	Snowbll	13.3
+

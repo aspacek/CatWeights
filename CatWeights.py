@@ -1,16 +1,45 @@
-# Import plot routine:
+###################
+## CatWeights.py ##
+###################
+
+# sys module - reads in input values
+#            - exits program on error
+import sys
+
+# pyplot module - plot out results
 import matplotlib.pyplot as plt
-# Import routine to mimic 'sed' in python:
+
+# fileinput module - mimics 'sed' in python
 import fileinput
-# Import routine to read/write csv files:
+
+# csv module - read and write csv files
 import csv
 
-# Remove extra tab in the data to easily read it in with csv:
-for line in fileinput.input('CatWeights.txt', inplace=True):
-	print(line.replace('\t\t', '\t'), end='')
+##
+## Written by Alex Spacek
+## July 2020 - August 2020
+##
+
+# Read in inputs given in command:
+#   >>python CatWeights.py input_file output_file cat_num name_1 name_2
+#   inputs[0] = program filename
+#   inputs[1] = input_file
+#   inputs[2] = output_file
+#   inputs[3] = cat_num
+#   inputs[4] = name_1
+#   inputs[5] = name_2
+inputs = sys.argv
+input_file = inputs[1]
+output_file = inputs[2]
+cat_num = int(inputs[3])
+
+# Combine cat names:
+names = []
+for i in range(cat_num):
+	names = names+[inputs[4+i]]
 
 # Read in data
-with open('CatWeights.txt') as csv_file:
+with open(input_file) as csv_file:
 	csv_reader = csv.reader(csv_file, delimiter='\t')
 	date = []
 	location = []
@@ -25,35 +54,24 @@ with open('CatWeights.txt') as csv_file:
 date = [int(i) for i in date]
 weight = [float(i) for i in weight]
 
-# Put the tab back in the data file:
-for line in fileinput.input('CatWeights.txt', inplace=True):
-	print(line.replace('\t', '\t\t'), end='')
+# Separate cat data:
+for i in range(cat_num):
+	Xdate = []
+	Xlocation = []
+	Xcat = []
+	Xweight = []
+	for j in range(len(date)):
+		if cat[j] == names[i]:
+			Xdate = Xdate+[date[j]]
+			Xlocation = Xlocation+[location[j]]
+			Xcat = Xcat+[cat[j]]
+			Xweight = Xweight+[weight[j]]
+	# Plot:
+	plt.plot(Xdate,Xweight,label=names[i])
 
-# Separate Sneezy and Flurry data:
-Sdate = []
-Slocation = []
-Scat = []
-Sweight = []
-Fdate = []
-Flocation = []
-Fcat = []
-Fweight = []
-for i in range(len(date)):
-	if cat[i] == 'Sneezy':
-		Sdate = Sdate+[date[i]]
-		Slocation = Slocation+[location[i]]
-		Scat = Scat+[cat[i]]
-		Sweight = Sweight+[weight[i]]
-	elif cat[i] == 'Flurry':
-		Fdate = Fdate+[date[i]]
-		Flocation = Flocation+[location[i]]
-		Fcat = Fcat+[cat[i]]
-		Fweight = Fweight+[weight[i]]
-
-# Make plot:
-plt.plot(Sdate,Sweight,label='Sneezy')
-plt.plot(Fdate,Fweight,label='Flurry')
+# Finish plot:
 plt.xlabel('Date (yr/mo/dy)')
 plt.ylabel('Weight (lb)')
 plt.legend(loc='upper right')
-plt.savefig('CatWeights.png')
+plt.savefig(output_file)
+
