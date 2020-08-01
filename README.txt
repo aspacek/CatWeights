@@ -19,5 +19,5 @@ Running the program:
 
   - An example command to run the example input file and create the example output file:
 
-    >> python CatWeights.py CatWeights_Example.txt CatWeights_Example.png 2 Pookie Snowbll
+  >> python CatWeights.py CatWeights_Example.txt CatWeights_Example.png 2 Pookie Snowbll
 
